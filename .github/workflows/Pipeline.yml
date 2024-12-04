@@ -78,7 +78,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}         
     - name: Debug Bucket Name and Region
       run: |
-        BUCKET_NAME="my-newest-bucket-${{ github.run_id }}"
+        BUCKET_NAME="my-newest1-bucket-${{ github.run_id }}"
         echo "Bucket Name: $BUCKET_NAME"
         echo "AWS Region: $AWS_REGION"
         aws s3 mb s3://$BUCKET_NAME
@@ -91,8 +91,8 @@ jobs:
 
     - name: Upload to S3
       run: |
-        BUCKET_NAME="my-newest-bucket-${{ github.run_id }}"
-        aws s3 cp /home/runner/work/TryGithubActionsPRACTICE/TryGithubActionsPRACTICE/model_comparisons/model_comparisons.csv s3://$BUCKET_NAME/
+        BUCKET_NAME="my-newest1-bucket-${{ github.run_id }}"
+        aws s3 cp ./TryGithubActionsPRACTICE/TryGithubActionsPRACTICE/model_comparisons/model_comparisons.csv s3://$BUCKET_NAME/
         aws s3 ls
       env:
         AWS_REGION: ${{ secrets.AWS_REGION }}
