@@ -78,10 +78,26 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}         
     - name: Debug Bucket Name and Region
       run: |
-        BUCKET_NAME="my-storage-bucket-${{ github.run_id }}"
+        BUCKET_NAME="my-work-bucket-${{ github.run_id }}"
         echo "Bucket Name: $BUCKET_NAME"
         echo "AWS Region: $AWS_REGION"
         aws s3 mb s3://$BUCKET_NAME
       env:
         AWS_REGION: ${{ secrets.AWS_REGION }}
+    - name: Download artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: my-artifact
+
+    - name: Unzip artifact
+      run: unzip my-artifact.zip -d ./unzipped-artifact
+    - name: Upload to S3
+      run: |
+        BUCKET_NAME="my-work-bucket-${{ github.run_id }}"
+        aws s3 cp ./unzipped-artifact/model_comparisons.csv s3://$BUCKET_NAME/
+      env:
+        AWS_REGION: ${{ secrets.AWS_REGION }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
    
