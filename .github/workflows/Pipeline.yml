@@ -58,4 +58,24 @@ jobs:
         with:
           name: model_comparisons
           path: model_comparisons.csv
+  Upload-to-s3:
+    runs-on: ubuntu-latest
+    needs: Job-Configure-AWS-CLI
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Configure AWS CLI with credentials
+      run: |
+        mkdir -p ~/.aws
+        echo "[default]" > ~/.aws/config
+        echo "region = $AWS_REGION" >> ~/.aws/config
+        echo "[default]" > ~/.aws/credentials
+        echo "aws_access_key_id = $AWS_ACCESS_KEY_ID" >> ~/.aws/credentials
+        echo "aws_secret_access_key = $AWS_SECRET_ACCESS_KEY" >> ~/.aws/credentials
+      env:
+        AWS_REGION: ${{ secrets.AWS_REGION }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}         
   
