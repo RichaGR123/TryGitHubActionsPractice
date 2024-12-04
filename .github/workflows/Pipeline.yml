@@ -78,7 +78,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}         
     - name: Debug Bucket Name and Region
       run: |
-        BUCKET_NAME="my-own-bucket-${{ github.run_id }}"
+        BUCKET_NAME="my-new-bucket-${{ github.run_id }}"
         echo "Bucket Name: $BUCKET_NAME"
         echo "AWS Region: $AWS_REGION"
         aws s3 mb s3://$BUCKET_NAME
@@ -89,12 +89,10 @@ jobs:
       with:
         name: model_comparisons
 
-    - name: Unzip artifact
-      run: unzip model_comparisons.zip -d ./unzipped-artifact
     - name: Upload to S3
       run: |
-        BUCKET_NAME="my-own-bucket-${{ github.run_id }}"
-        aws s3 cp ./unzipped-artifact/model_comparisons.csv s3://$BUCKET_NAME/
+        BUCKET_NAME="my-new-bucket-${{ github.run_id }}"
+        aws s3 cp ./model_comparisons/model_comparisons.csv s3://$BUCKET_NAME/
         aws s3 ls
       env:
         AWS_REGION: ${{ secrets.AWS_REGION }}
