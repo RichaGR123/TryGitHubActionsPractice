@@ -78,9 +78,10 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}         
     - name: Debug Bucket Name and Region
       run: |
-        BUCKET_NAME="my-awesome-bucket-${{ github.run_id }}"
+        BUCKET_NAME="my-storage-bucket-${{ github.run_id }}"
         echo "Bucket Name: $BUCKET_NAME"
         echo "AWS Region: $AWS_REGION"
+        aws s3 mb s3://$BUCKET_NAME
       env:
         AWS_REGION: ${{ secrets.AWS_REGION }}
    
