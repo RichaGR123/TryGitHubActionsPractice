@@ -63,9 +63,7 @@ jobs:
     needs: Job-Configure-AWS-CLI
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-
+    
     - name: Configure AWS CLI with credentials
       run: |
         mkdir -p ~/.aws
